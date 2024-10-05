@@ -77,3 +77,43 @@ LIMIT 10;
   - 開放封閉原則（The Open/Closed Principle, OCP）：
 
     可以通過新增更多驗證規則來擴展功能，而不需要修改現有的規則類別
+    
+___
+
+### 補充 API 實作測驗的執行指令供作參考
+
+- 運行測驗的 container
+```bash
+# Build image from dockerfile
+docker build -t laravel-app .
+
+# run container
+docker run -d -p 8000:8000 --name laravel-app laravel-app
+```
+
+- curl 指令執行 Request
+```bash
+curl --location 'localhost:8000/api/orders' \
+--header 'Content-Type: application/json' \
+--data '{
+    "id": "A0000001",
+    "name": "Melody Holiday Inn",
+    "address": {
+        "city": "taipei-city",
+        "district": "da-an-district",
+        "street": "fuxing-south-road"
+    },
+    "price": 200,
+    "currency": "TWD"
+}'
+```
+
+- 執行單元測試
+```bash
+# 單元測試使用 Table driven testing
+# OrderApiTest.php 包含了成功與失敗案例
+docker exec -it laravel-app ./vendor/bin/pest
+```
+
+
+
